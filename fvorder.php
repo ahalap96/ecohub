@@ -1,3 +1,12 @@
+<?php
+include 'connection.php';
+$query="select * from product_order join products on product_order.prod_id=products.prod_id";
+$dat = mysqli_query($con,$query);
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,148 +51,121 @@
             <div class="col-lg-6">
                 <div class="d-flex align-items-center justify-content-center">
                     <a href="index.html" class="navbar-brand ms-lg-5">
-                        <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Farm</span>Fresh</h1>
+                        <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Eco</span>Hub</h1>
                     </a>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <!-- <div class="col-lg-3">
                 <div class="d-flex align-items-center justify-content-end">
                     <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f"></i></a>
                     <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in"></i></a>
                     <a class="btn btn-primary btn-square rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- Topbar End -->
 
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
-        <a href="index.html" class="navbar-brand d-flex d-lg-none">
-            <h1 class="m-0 display-4 text-secondary"><span class="text-white">Farm</span>Fresh</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav mx-auto py-0">
-                <a href="index.html" class="nav-item nav-link">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
-                <a href="service.html" class="nav-item nav-link">Service</a>
-                <a href="product.html" class="nav-item nav-link">Product</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                        <a href="detail.html" class="dropdown-item">Blog Detail</a>
-                        <a href="feature.html" class="dropdown-item">Features</a>
-                        <a href="team.html" class="dropdown-item active">The Team</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                    </div>
-                </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
-            </div>
-        </div>
-    </nav>
+   <?php
+      include 'fhead.php';
+   ?>
     <!-- Navbar End -->
 
 
     <!-- Hero Start -->
-    <div class="container-fluid bg-primary py-5 bg-hero mb-5">
+    <!-- <div class="container-fluid bg-primary py-5 bg-hero mb-5">
         <div class="container py-5">
             <div class="row justify-content-start">
                 <div class="col-lg-8 text-center text-lg-start">
-                    <h1 class="display-1 text-white mb-md-4">The Team</h1>
-                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Home</a>
-                    <a href="" class="btn btn-secondary py-md-3 px-md-5">The Team</a>
+                    <h1 class="display-1 text-white mb-md-4">Our Workers</h1>
+                    <a href="main.php" class="btn btn-primary py-md-3 px-md-5 me-3">Home</a>
+                    <a href="" class="btn btn-secondary py-md-3 px-md-5">About Us</a>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Hero End -->
 
 
+    <!-- About Start -->
+    
+    
+    <!-- About End -->
+
+
+    <!-- Facts Start -->
+   
+    <!-- Facts End -->
+
+
     <!-- Team Start -->
-     <div class="container-fluid py-5">
+    <div class="container-fluid py-5">
         <div class="container">
             <div class="mx-auto text-center mb-5" style="max-width: 500px;">
-                <h6 class="text-primary text-uppercase">The Team</h6>
-                <h1 class="display-5">We Are Professional Organic Farmers</h1>
+                <h6 class="text-primary text-uppercase"></h6>
+                <h1 class="display-5">Orders</h1>
             </div>
             <div class="row g-5">
+            <?php
+                            while($row = mysqli_fetch_assoc($dat)){
+                        ?>
                 <div class="col-lg-4 col-md-6">
                     <div class="row g-0">
                         <div class="col-10">
                             <div class="position-relative">
-                                <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
-                                <div class="position-absolute start-0 bottom-0 w-100 py-3 px-4" style="background: rgba(52, 173, 84, .85);">
-                                    <h4 class="text-white">Farmer Name</h4>
-                                    <span class="text-white">Designation</span>
+                                <img class="img-fluid w-100" src="img/<?php echo $row['image'];?>" alt="">
+                                <div class="position-absolute start-0 bottom-0 w-100 py-3 px-4">
+                                <h4 class=""><?php echo $row['prod_name'];?></h4>
+                                    <span class=""><?php echo $row['sub_date'];?></span><br>
+                                    <span class=""><?php echo $row['Quantity'];?></span><br>
+                                    <?php
+                                        if($row['status']=='0'){
+                                     ?>
+                                     <a class="btn btn-secondary" href="orderapproval.php?eid=<?php echo $row['order_id'];?>">ordered</a>
+                                    <?php
+
+                                        }
+                                     ?>
+            
+                                     <?php
+                                        if($row['status']=='1'){
+                                     ?>
+                                    <a class="btn btn-secondary" href="null">confirmed</a>
+                                    <?php
+
+                                    }
+                                     ?>
+                                    
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <!-- <div class="col-2">
                             <div class="h-100 d-flex flex-column align-items-center justify-content-around bg-secondary py-5">
                                 <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-twitter text-secondary"></i></a>
                                 <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-facebook-f text-secondary"></i></a>
                                 <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-linkedin-in text-secondary"></i></a>
                                 <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-instagram text-secondary"></i></a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="row g-0">
-                        <div class="col-10">
-                            <div class="position-relative">
-                                <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
-                                <div class="position-absolute start-0 bottom-0 w-100 py-3 px-4" style="background: rgba(52, 173, 84, .85);">
-                                    <h4 class="text-white">Farmer Name</h4>
-                                    <span class="text-white">Designation</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="h-100 d-flex flex-column align-items-center justify-content-around bg-secondary py-5">
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-twitter text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-facebook-f text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-linkedin-in text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-instagram text-secondary"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="row g-0">
-                        <div class="col-10">
-                            <div class="position-relative">
-                                <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
-                                <div class="position-absolute start-0 bottom-0 w-100 py-3 px-4" style="background: rgba(52, 173, 84, .85);">
-                                    <h4 class="text-white">Farmer Name</h4>
-                                    <span class="text-white">Designation</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="h-100 d-flex flex-column align-items-center justify-content-around bg-secondary py-5">
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-twitter text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-facebook-f text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-linkedin-in text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-instagram text-secondary"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
+                <?php
+                    }
+                ?>
+                                    
+                <!-- <div class="col-lg-4 col-md-6">
                     <div class="row g-0">
                         <div class="col-10">
                             <div class="position-relative">
                                 <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
                                 <div class="position-absolute start-0 bottom-0 w-100 py-3 px-4" style="background: rgba(52, 173, 84, .85);">
-                                    <h4 class="text-white">Farmer Name</h4>
-                                    <span class="text-white">Designation</span>
+                                <h4 class="text-white">Workers Name</h4>
+                                    <span class="text-white">Work Type</span><br>
+                                    <span class="text-white">Mobile</span><br>
+                                    <span class="text-white">Status</span>
                                 </div>
                             </div>
                         </div>
@@ -196,15 +178,17 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
+                </div> -->
+                <!-- <div class="col-lg-4 col-md-6">
                     <div class="row g-0">
                         <div class="col-10">
                             <div class="position-relative">
                                 <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
                                 <div class="position-absolute start-0 bottom-0 w-100 py-3 px-4" style="background: rgba(52, 173, 84, .85);">
-                                    <h4 class="text-white">Farmer Name</h4>
-                                    <span class="text-white">Designation</span>
+                                    <h4 class="text-white">Workers Name</h4>
+                                    <span class="text-white">Work Type</span><br>
+                                    <span class="text-white">Mobile</span><br>
+                                    <span class="text-white">Status</span>
                                 </div>
                             </div>
                         </div>
@@ -217,28 +201,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="row g-0">
-                        <div class="col-10">
-                            <div class="position-relative">
-                                <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
-                                <div class="position-absolute start-0 bottom-0 w-100 py-3 px-4" style="background: rgba(52, 173, 84, .85);">
-                                    <h4 class="text-white">Farmer Name</h4>
-                                    <span class="text-white">Designation</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="h-100 d-flex flex-column align-items-center justify-content-around bg-secondary py-5">
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-twitter text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-facebook-f text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-linkedin-in text-secondary"></i></a>
-                                <a class="btn btn-square rounded-circle bg-white" href="#"><i class="fab fa-instagram text-secondary"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div> 
@@ -296,28 +259,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mt-lg-n5">
-                    <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-secondary p-5">
-                        <h4 class="text-white">Newsletter</h4>
-                        <h6 class="text-white">Subscribe Our Newsletter</h6>
-                        <p>Amet justo diam dolor rebum lorem sit stet sea justo kasd</p>
-                        <form action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control border-white p-3" placeholder="Your Email">
-                                <button class="btn btn-primary">Sign Up</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
-    <div class="container-fluid bg-dark text-white py-4">
-        <div class="container text-center">
-            <p class="mb-0">&copy; <a class="text-secondary fw-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed by <a class="text-secondary fw-bold" href="https://htmlcodex.com">HTML Codex</a></p>
-            <br>Distributed By: <a class="text-secondary fw-bold" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-        </div>
-    </div>
+    
     <!-- Footer End -->
 
 

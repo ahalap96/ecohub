@@ -1,3 +1,88 @@
+<?php
+session_start();
+include 'connection.php';
+if(isset($_POST['login'])){
+    $uname=$_POST['username'];
+    $password=$_POST['password'];
+    $query="select * from login where username='$uname' and password='$password'";
+    $dat=mysqli_query($con,$query);
+    if(mysqli_num_rows($dat)>0){
+        $data=mysqli_fetch_assoc($dat);
+        $type=$data['type'];
+        if($type=="admin"){
+            echo "<script>window.location.href='main.php';</script>";
+        }
+        if($type=="farmer"){
+            $lid=$data['lid'];
+            $row=mysqli_query($con,"select * from farmers where lid='$lid'");
+           $data1= mysqli_fetch_assoc($row);
+            $status=$data1['status'];
+           // var_dump($data1);
+          // exit();
+            if($status=='1'){
+    
+            $_SESSION['id']=$data['lid'];
+            echo "<script>alert('successfully login');</script>";
+            //header("location:products.php");
+            echo "<script>window.location.href='farmers.php';</script>";
+        }
+        else{
+            echo "<script>alert('waiting for approval');</script>"; 
+        }
+    }
+    
+    if($type=="user"){
+        $lid=$data['lid'];
+        $row=mysqli_query($con,"select * from users where lid='$lid'");
+       $data1= mysqli_fetch_assoc($row);
+       // $status=$data1['status'];
+       // var_dump($data1);
+      // exit();
+        //if($status=='1'){
+
+        $_SESSION['id']=$data['lid'];
+        echo "<script>alert('successfully login');</script>";
+        //header("location:products.php");
+        echo "<script>window.location.href='users.php';</script>";
+    //}
+    //else{
+       // echo "<script>alert('waiting for approval');</script>"; 
+    //}
+}
+if($type=="worker"){
+    $lid=$data['lid'];
+    $row=mysqli_query($con,"select * from workers where lid='$lid'");
+   $data1= mysqli_fetch_assoc($row);
+   // $status=$data1['status'];
+   // var_dump($data1);
+  // exit();
+    //if($status=='1'){
+
+    $_SESSION['id']=$data['lid'];
+    echo "<script>alert('successfully login');</script>";
+    //header("location:products.php");
+    echo "<script>window.location.href='workers.php';</script>";
+//}
+//else{
+   // echo "<script>alert('waiting for approval');</script>"; 
+//}
+}
+
+        }
+        
+    else{
+        echo "<script>alert('invalid login id');</script>"; 
+    }
+
+}
+?>
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,7 +145,7 @@
 
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
+    <!-- <nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
         <a href="index.html" class="navbar-brand d-flex d-lg-none">
             <h1 class="m-0 display-4 text-secondary"><span class="text-white">Farm</span>Fresh</h1>
         </a>
@@ -86,12 +171,12 @@
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
             </div>
         </div>
-    </nav>
+    </nav>  -->
     <!-- Navbar End -->
 
 
     <!-- Carousel Start -->
-    <div class="container-fluid p-0">
+    <!-- <div class="container-fluid p-0">
         <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -128,12 +213,12 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-    </div>
+    </div> -->
     <!-- Carousel End -->
 
 
     <!-- Banner Start -->
-    <div class="container-fluid banner mb-5">
+    <!-- <div class="container-fluid banner mb-5">
         <div class="container">
             <div class="row gx-0">
                 <div class="col-md-6">
@@ -152,12 +237,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Banner Start -->
 
 
     <!-- About Start -->
-    <div class="container-fluid about pt-5">
+    <!-- <div class="container-fluid about pt-5">
         <div class="container">
             <div class="row gx-5">
                 <div class="col-lg-6 mb-5 mb-lg-0">
@@ -186,12 +271,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- About End -->
 
 
     <!-- Facts Start -->
-    <div class="container-fluid bg-primary facts py-5 mb-5">
+    <!-- <div class="container-fluid bg-primary facts py-5 mb-5">
         <div class="container py-5">
             <div class="row gx-5 gy-4">
                 <div class="col-lg-3 col-md-6">
@@ -240,12 +325,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Facts End -->
     
 
     <!-- Services Start -->
-    <div class="container-fluid py-5">
+    <!-- <div class="container-fluid py-5">
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6">
@@ -293,12 +378,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Services End -->
 
 
     <!-- Features Start -->
-    <div class="container-fluid bg-primary feature py-5 pb-lg-0 my-5">
+    <!-- <div class="container-fluid bg-primary feature py-5 pb-lg-0 my-5">
         <div class="container py-5 pb-lg-0">
             <div class="mx-auto text-center mb-3 pb-2" style="max-width: 500px;">
                 <h6 class="text-uppercase text-secondary">Features</h6>
@@ -345,12 +430,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Features Start -->
 
 
     <!-- Products Start -->
-    <div class="container-fluid py-5">
+    <!-- <div class="container-fluid py-5">
         <div class="container">
             <div class="mx-auto text-center mb-5" style="max-width: 500px;">
                 <h6 class="text-primary text-uppercase">Products</h6>
@@ -414,12 +499,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Products End -->
 
 
     <!-- Testimonial Start -->
-    <div class="container-fluid bg-testimonial py-5 my-5">
+    <!-- <div class="container-fluid bg-testimonial py-5 my-5">
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-7">
@@ -440,12 +525,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Testimonial End -->
 
 
     <!-- Team Start -->
-    <div class="container-fluid py-5">
+    <!-- <div class="container-fluid py-5">
         <div class="container">
             <div class="mx-auto text-center mb-5" style="max-width: 500px;">
                 <h6 class="text-primary text-uppercase">The Team</h6>
@@ -517,12 +602,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Team End -->
 
 
     <!-- Blog Start -->
-    <div class="container-fluid py-5">
+    <!-- <div class="container-fluid py-5">
         <div class="container">
             <div class="mx-auto text-center mb-5" style="max-width: 500px;">
                 <h6 class="text-primary text-uppercase">Our Blog</h6>
@@ -558,93 +643,74 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Blog End -->
     
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-footer bg-primary text-white mt-5">
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
-            <div class="row gx-5">
-                <div class="col-lg-8 col-md-6">
-                    <div class="row gx-5">
-                        <div class="col-lg-4 col-md-12 pt-5 mb-5">
-                            <h4 class="text-white mb-4">Get In Touch</h4>
-                            <div class="d-flex mb-2">
-                                <i class="bi bi-geo-alt text-white me-2"></i>
-                                <p class="text-white mb-0">123 Street, New York, USA</p>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <i class="bi bi-envelope-open text-white me-2"></i>
-                                <p class="text-white mb-0">info@example.com</p>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <i class="bi bi-telephone text-white me-2"></i>
-                                <p class="text-white mb-0">+012 345 67890</p>
-                            </div>
-                            <div class="d-flex mt-4">
-                                <a class="btn btn-secondary btn-square rounded-circle me-2" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-secondary btn-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-secondary btn-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a class="btn btn-secondary btn-square rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
-                            <h4 class="text-white mb-4">Quick Links</h4>
-                            <div class="d-flex flex-column justify-content-start">
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Home</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>About Us</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Our Services</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Meet The Team</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Latest Blog</a>
-                                <a class="text-white" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Contact Us</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
-                            <h4 class="text-white mb-4">Popular Links</h4>
-                            <div class="d-flex flex-column justify-content-start">
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Home</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>About Us</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Our Services</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Meet The Team</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Latest Blog</a>
-                                <a class="text-white" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Contact Us</a>
-                            </div>
-                        </div>
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+    <div class="card mb-3">
+
+<div class="card-body bg-secondary">
+
+  <div class="pt-4 pb-2">
+    <h5 class="card-title text-center pb-0 fs-4">Login</h5>
+  </div>
+
+  <form class="row g-3" method="POST">
+
+    <div class="col-12">
+      <label for="yourUsername" class="form-label text-white">Username</label>
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="inputGroupPrepend">@</span>
+        <input type="text" name="username" class="form-control" id="yourusername" onkeyup="clearerror('username')">
+        <br><div><span id="username" style="color:red"></span></div>
+        <div class="invalid-feedback">Please enter your username.</div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <label for="yourPassword" class="form-label text-white">Password</label>
+      <input type="password" name="password" class="form-control" id="yourpassword" onkeyup="clearerror('password')">
+      <span id="password" style="color:red"></span>
+      <div class="invalid-feedback">Please enter your password!</div>
+    </div>
+
+    
+    <div class="col-12">
+      <button class="btn btn-primary w-100" type="submit" name="login" onclick="return validate()">Login</button>
+    </div>
+    <p class="small mb-0 text-white">Don't have account?</p>
+    <div class="col-12">
+    <div class="dropdown menu">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">create an account</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="uregister.php" class="dropdown-item">user</a>
+                        <a href="fregister.php" class="dropdown-item">farmer</a>
+                        <a href="wregister.php" class="dropdown-item">worker</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mt-lg-n5">
-                    <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-secondary p-5">
-                        <h4 class="text-white">LOGIN</h4>
-                        <form action="">
-                            <div >
-                                <table class="table">
-                                   <tr>
-                                      <td><input type="text" class="form-control border-white p-2" placeholder="Your Email"></td>
-                                    </tr>
-                                    <tr>
-                                       <td><input type="text" class="form-control border-white p-2" placeholder="Password"></td>
-                                    </tr>
-                                    <tr> 
-                                       <td><button class="btn btn-primary">Login</button></td>
-                                    </tr>
-                                    <tr> 
-                                       <td><button class="btn btn-primary">Sign in</button></td>
-                                  </tr>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid bg-dark text-white py-4">
-        <div class="container text-center">
-            <p class="mb-0">&copy; <a class="text-secondary fw-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed by <a class="text-secondary fw-bold" href="https://htmlcodex.com">HTML Codex</a></p>
-            <br>Distributed By: <a class="text-secondary fw-bold" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-        </div>
-    </div>
+</div>
+    <!-- <div class="col-12">
+      <p class="small mb-0 text-white">Don't have account? <a href="pages-register.html">Create an account</a></p>
+    </div> -->
+  </form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>            
+       
+    
     <!-- Footer End -->
 
 
@@ -661,7 +727,34 @@
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script >
+        function validate(){
+            // alert('sucess');
+            var usnme=document.getElementById("yourusername").value;
+            var pswd=document.getElementById("yourpassword").value;
+            if(usnme==""){
+                document.getElementById("username").innerHTML="*enter your username";
+                return false;
+            }
+        
+        if (pswd.match(/[a-z]/g) && pswd.match(
+                    /[A-Z]/g) && pswd.match(
+                    /[0-9]/g) && pswd.length >= 8){
+                        // return false;
+                    }
+                    else{
+                        document.getElementById("password").innerHTML="*password must contain atleast 8 with uppercase,lowercase and numbers";
+                        return false;
+
+                        // alert('mismatch password');
+                    }
+    }
+        function clearerror(e){
+            document.getElementById(e).innerHTML="";
+        }
+    </script>
 </body>
 
 </html>
+
+
