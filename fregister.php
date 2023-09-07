@@ -140,7 +140,8 @@ mysqli_query($con,$query);
         <input type="text" class="form-control bg-light border-0 px-4" placeholder="Place" name="place" style="height: 55px;" required>
     </div>
     <div class="col-12">
-        <input type="text" class="form-control bg-light border-0 px-4" placeholder="Mobile" name="mobile" style="height: 55px;" required pattern="[0-9]{10}">
+        <input type="text" class="form-control bg-light border-0 px-4" placeholder="Mobile" name="mobile" style="height: 55px;" id="yourmobile" onkeyup="clearerror('mobile')">
+        <span id="mobile" style="color:red"></span>
     </div>
     <div class="col-12">
         <input type="text" class="form-control bg-light border-0 px-4" placeholder="Age" name="age" style="height: 55px;" required>
@@ -149,11 +150,12 @@ mysqli_query($con,$query);
         <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" name="username" style="height: 55px;" required>
     </div>
     <div class="col-12">
-        <input type="text" class="form-control bg-light border-0 px-4" placeholder="Password" name="password" style="height: 55px;" pattern="(?=.*\d)(?=.*\[a-z])(?=.\[A-Z]).{8,}" required>
+        <input type="text" class="form-control bg-light border-0 px-4" placeholder="Password" name="password" style="height: 55px;" id="yourpassword" onkeyup="clearerror('password')">
+        <span id="password" style="color:red"></span>
     </div>
     
     <div class="col-12">
-      <button class="btn btn-primary w-100" type="submit" name="register">Register</button>
+      <button class="btn btn-primary w-100" type="submit" name="register" onclick="return validate()">Register</button>
     </div>
     
   </form>
@@ -184,6 +186,32 @@ mysqli_query($con,$query);
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <script >
+        function validate(){
+            var mbl=document.getElementById("yourmobile").value;
+            var pswd=document.getElementById("yourpassword").value;
+            if(mbl!=10){
+                document.getElementById("mobile").innerHTML="*mobile number should be 10 digits";
+                // return false;
+            }
+        
+        if (pswd.match(/[a-z]/g) && pswd.match(
+                    /[A-Z]/g) && pswd.match(
+                    /[0-9]/g) && pswd.length >= 8){
+                        // return false;
+                    }
+                    else{
+                        document.getElementById("password").innerHTML="*password must contain atleast 8 with uppercase,lowercase and numbers";
+                        return false;
+
+                        // alert('mismatch password');
+                    }
+    }
+        function clearerror(e){
+            document.getElementById(e).innerHTML="";
+        }
+    </script>
 </body>
 
 </html>

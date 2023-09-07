@@ -729,7 +729,6 @@ if($type=="worker"){
     <!-- Template Javascript -->
     <script >
         function validate(){
-            // alert('sucess');
             var usnme=document.getElementById("yourusername").value;
             var pswd=document.getElementById("yourpassword").value;
             if(usnme==""){
